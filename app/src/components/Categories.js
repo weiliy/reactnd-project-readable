@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getCategories } from '../actions';
+import {
+  getCategories,
+  getPosts,
+} from '../actions';
 
 class App extends Component {
   static propTypes = {
@@ -16,6 +19,8 @@ class App extends Component {
     this.props.getCategories();
   }
 
+  getPosts = category => this.props.getPosts(category)
+
   render() {
     const { categories } = this.props;
 
@@ -23,11 +28,15 @@ class App extends Component {
       <div className="categores">
         <ul>
           <li>
-            <Link to="/posts">all</Link>
+            <Link to="/posts" onClick={() => this.getPosts()}>all</Link>
           </li>
           {categories.map(({name, path}) => (
             <li key={name}>
-              <Link to={`/${path}/posts`}>{name}</Link>
+              <Link
+                to={`/${path}/posts`}
+                onClick={() => this.getPosts(path)}
+              >{name}
+              </Link>
             </li>
           ))}
         </ul>
@@ -45,6 +54,7 @@ function mapStateToProps({ categories }) {
 function mapDispatchToProps(dispatch) {
   return {
     getCategories: () => dispatch(getCategories()),
+    getPosts: category => dispatch(getPosts(category)),
   };
 }
 
