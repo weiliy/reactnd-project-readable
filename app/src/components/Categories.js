@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getCategories } from '../actions';
 
 class App extends Component {
   static propTypes = {
-    categories: PropTypes.shape({
-      allNames: PropTypes.arrayOf(PropTypes.string).isRequired,
-      byName: PropTypes.object.isRequired,
-    }).isRequired,
+    categories: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      path: PropTypes.string.isRequired,
+    })).isRequired,
   }
 
   componentDidMount() {
@@ -21,11 +22,14 @@ class App extends Component {
     return (
       <div className="categores">
         <ul>
-          {categories.allNames.map(name=> (
+          <li>
+            <Link to="/posts">all</Link>
+          </li>
+          {categories.map(({name, path}) => (
             <li key={name}>
-              {name}
-            </li>)
-          )}
+              <Link to={`/${path}/posts`}>{name}</Link>
+            </li>
+          ))}
         </ul>
       </div>
     );
@@ -33,7 +37,9 @@ class App extends Component {
 }
 
 function mapStateToProps({ categories }) {
-  return { categories };
+  return {
+    categories: categories.allNames.map(name => categories.byName[name]),
+  };
 }
 
 function mapDispatchToProps(dispatch) {
