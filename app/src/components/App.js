@@ -1,48 +1,14 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { getCategories } from '../actions';
+import React from 'react';
+import Categories from './Categories';
 
-class App extends Component {
-  static propTypes = {
-    categories: PropTypes.shape({
-      allNames: PropTypes.arrayOf(PropTypes.string).isRequired,
-      byName: PropTypes.object.isRequired,
-    }).isRequired,
-  }
+function App (props) {
+  const { categories } = props;
 
-  componentDidMount() {
-    this.props.getCategories();
-  }
-
-  render() {
-    const { categories } = this.props;
-
-    return (
-      <div>
-        <ul>
-          {categories.allNames.map(name=> (
-            <li key={name}>
-              {name}
-            </li>)
-          )}
-        </ul>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <Categories />
+    </div>
+  );
 }
 
-function mapStateToProps({ categories }) {
-  return { categories };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    getCategories: () => dispatch(getCategories()),
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(App);
+export default App;
