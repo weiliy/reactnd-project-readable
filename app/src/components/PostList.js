@@ -4,12 +4,15 @@ import { connect } from 'react-redux';
 import { getPosts } from '../actions';
 
 const PostLink = ({ id, to, posts = {} }) => {
-  const { title, author, voteScore } = posts[id] || {};
+  const { title, category, author, voteScore } = posts[id] || {};
   return (
-    <Link
-      to={to}
-    >{title} - {author} - (vote: {voteScore})
-    </Link>
+    <div>
+      <Link
+        to={`${category}/${id}`}
+      >{title} - {author} - (vote: {voteScore})
+      </Link>
+      <button disabled>x</button>
+    </div>
   )
 };
 
@@ -35,13 +38,16 @@ class PostList extends Component {
     }
 
     return (
-      <ul>
-        {displayPosts.map(id => (
-          <li key={id}>
-            <PostLink to={`${url}/${id}`} id={id} posts={posts.byId}/>
-          </li>
-        ))}
-      </ul>
+      <div>
+        <button disabled>add post</button>
+        <ul>
+          {displayPosts.map(id => (
+            <li key={id}>
+              <PostLink id={id} posts={posts.byId}/>
+            </li>
+          ))}
+        </ul>
+      </div>
     );
   }
 }
