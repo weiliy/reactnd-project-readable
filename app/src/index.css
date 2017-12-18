@@ -3,3 +3,11 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+.categores li.selected {
+  background: beige;
+}
+
+.categores ul.select-all li {
+  background: beige;
+}

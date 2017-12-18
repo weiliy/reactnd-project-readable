@@ -13,6 +13,9 @@ class App extends Component {
       name: PropTypes.string.isRequired,
       path: PropTypes.string.isRequired,
     })).isRequired,
+    match: PropTypes.shape({
+      params: PropTypes.object.isRequired,
+    }).isRequired,
   }
 
   componentDidMount() {
@@ -22,16 +25,17 @@ class App extends Component {
   getPosts = category => this.props.getPosts(category)
 
   render() {
-    const { categories } = this.props;
+    const {
+      categories,
+      match: { params: { category } },
+    } = this.props;
 
     return (
       <div className="categores">
-        <ul>
-          <li>
-            <Link to="/posts" onClick={() => this.getPosts()}>all</Link>
-          </li>
+        <ul className={category === 'ALL' ? 'select-all' : null}>
+          <li><Link to="/ALL/posts" onClick={() => this.getPosts()}>all</Link></li>
           {categories.map(({name, path}) => (
-            <li key={name}>
+            <li key={name} className={category === name ? 'selected' : null}>
               <Link
                 to={`/${path}/posts`}
                 onClick={() => this.getPosts(path)}
