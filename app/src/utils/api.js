@@ -21,3 +21,6 @@ export function getPosts (category) {
   return fetch(`${root}/${url}`, { headers })
     .then(response => response.json());
 }
+
+export const getPost = id => fetch(`${root}/posts/${id}`, { headers })
+  .then(response => response.json());

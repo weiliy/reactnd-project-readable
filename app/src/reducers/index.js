@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import {
   RECEIVE_CATEGORIES,
   RECEIVE_POSTS,
+  RECEIVE_POST,
 } from '../actions';
 
 
@@ -72,6 +73,15 @@ function posts (state = initialPosts, action) {
         }
       }
 
+    case RECEIVE_POST :
+      const { post } = action;
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [post.id]: post,
+        },
+      }
     default :
       return state;
   }

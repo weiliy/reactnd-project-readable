@@ -1,6 +1,17 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getPosts } from '../actions';
+
+const PostLink = ({ id, to, posts = {} }) => {
+  const { title, author, voteScore } = posts[id] || {};
+  return (
+    <Link
+      to={to}
+    >{title} - {author} - (vote: {voteScore})
+    </Link>
+  )
+};
 
 class PostList extends Component {
   componentDidMount() {
@@ -11,22 +22,24 @@ class PostList extends Component {
     const {
       posts,
       categories,
-      match: { params: { category } },
+      match: { params: { category }, url},
     } = this.props;
 
     let displayPosts = [];
     if (category) {
       if (categories[category] && categories[category].posts) {
-        displayPosts = categories[category].posts.map(id => posts.byId[id]);
+        displayPosts = categories[category].posts || [];
       }
     } else {
-      displayPosts = posts.allIds.map(id => posts.byId[id]);
+      displayPosts = posts.allIds || [];
     }
 
     return (
       <ul>
-        {displayPosts.map(({ id, title }) => (
-          <li key={id}>{title}</li>
+        {displayPosts.map(id => (
+          <li key={id}>
+            <PostLink to={`${url}/${id}`} id={id} posts={posts.byId}/>
+          </li>
         ))}
       </ul>
     );
