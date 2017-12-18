@@ -4,6 +4,7 @@ import {
   Modal,
   Button,
   Icon,
+  Divider,
 } from 'antd';
 import { connect } from 'react-redux';
 import { getPosts } from '../actions';
@@ -11,12 +12,25 @@ import { getPosts } from '../actions';
 import AddPostModal from './AddPostModal';
 
 const PostLink = ({ id, to, posts = {} }) => {
-  const { title, category, author, voteScore } = posts[id] || {};
+  const { title, category, author, voteScore, commentCount } = posts[id] || {};
   return (
-    <Link
-      to={`${category}/${id}`}
-    >{title} - {author} - (<Icon type="heart" />{voteScore})
-    </Link>
+    <div>
+      <div>
+        <Link
+          to={`${category}/${id}`}
+        >{title} - {author} - {category}
+        </Link>
+      </div>
+      <div>
+        <Icon type="like" /><Icon type="dislike" />({voteScore})
+        <Divider type="vertical" />
+        <Icon type="message" />{commentCount}
+        <Divider type="vertical" />
+        <Icon type="edit" />
+        <Divider type="vertical" />
+        <Icon type="delete" />
+      </div>
+    </div>
   )
 };
 
@@ -65,9 +79,6 @@ class PostList extends Component {
           {displayPosts.map(id => (
             <li key={id}>
               <PostLink id={id} posts={posts.byId}/>
-              <Icon type="delete" />
-              <Icon type="like" />
-              <Icon type="dislike" />
             </li>
           ))}
         </ul>
