@@ -1,5 +1,6 @@
 const headers = {
   Authorization: 'demo',
+  'Content-Type': 'application/json; charset=utf-8',
 }
 
 const root = `//${global.location.hostname}:3001`;
@@ -24,3 +25,10 @@ export function getPosts (category) {
 
 export const getPost = id => fetch(`${root}/posts/${id}`, { headers })
   .then(response => response.json());
+
+export const addPost = post => fetch(`${root}/posts`, {
+  headers,
+  method: 'POST',
+  body: JSON.stringify(post),
+}).then(response => response.json());
+

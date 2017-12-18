@@ -37,3 +37,14 @@ export const receivePost = post => ({
   post,
 });
 
+export const addPost = (post, callback) => dispatch => (
+  api
+    .addPost(post)
+    .then((post) => {
+      dispatch(receivePost(post));
+      if (typeof callback === 'function') {
+        callback();
+      }
+    })
+);
+
