@@ -15,11 +15,11 @@ const App = ({ store }) => (
   <Provider store={store}>
     <Router>
       <div>
-        <Route path="/:category/posts" component={Categories} />
+        <Route path="/:category?/posts" component={Categories} />
         <Switch>
-          <Route exact path="/:category/posts" component={PostList} />
-          <Route exact path="/:category/posts/:postId" component={PostDetail} />
-          <Redirect from="/" to="/ALL/posts" />
+          <Route exact path="/:category?/posts" component={PostList} />
+          <Route exact path="/:category?/posts/:postId" component={PostDetail} />
+          <Redirect from="/" to="/posts" />
         </Switch>
       </div>
     </Router>

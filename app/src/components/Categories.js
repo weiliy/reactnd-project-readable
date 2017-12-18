@@ -32,8 +32,8 @@ class App extends Component {
 
     return (
       <div className="categores">
-        <ul className={category === 'ALL' ? 'select-all' : null}>
-          <li><Link to="/ALL/posts" onClick={() => this.getPosts()}>all</Link></li>
+        <ul className={!category ? 'select-all' : null}>
+          <li><Link to="/posts" onClick={() => this.getPosts()}>all</Link></li>
           {categories.map(({name, path}) => (
             <li key={name} className={category === name ? 'selected' : null}>
               <Link
